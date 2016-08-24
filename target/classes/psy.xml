@@ -1,0 +1,74 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="pies1" class="pl.bezdomniaki.Pies">
+		<property name="imie" value="Azor" />
+	</bean>
+
+	<bean id="pies2" class="pl.bezdomniaki.Pies">
+		<property name="imie" value="Pucek" />
+	</bean>
+
+	<bean id="schroniskoDebicckie" class="pl.bezdomniaki.Schronisko"
+		lazy-init="true">
+		<property name="listaPsow">
+			<list>
+				<ref bean="pies1" />
+				<ref bean="pies2" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="dataSourceMSSQL"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
+		<property name="url" value="jdbc:sqlserver://localhost:1433;DatabaseName=psy;"/>
+		<property name="username" value="ewa" />
+		<property name="password" value="haslo" />
+	</bean>
+
+	<!-- All of Spring’s DAO template classes are thread-safe, we only need 
+		one JdbcTemplate instance for each DataSource in our application -->
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource">
+			<ref bean="dataSourceMSSQL"/>
+		</property>
+	</bean>
+
+	<bean id="piesDAO" class="pl.bezdomniaki.dao.PiesDAO">
+		<property name="jdbcTemplate">
+			<ref bean="jdbcTemplate" />
+		</property>
+	</bean>
+
+	<bean id="schroniskoDAO" class="pl.bezdomniaki.dao.SchroniskoDAO">
+		<property name="jdbcTemplate">
+			<ref bean="jdbcTemplate" />
+		</property>
+	</bean>
+
+	<bean id="piesAzor" class="pl.bezdomniaki.Pies">
+		<property name="id" value="123" />
+		<property name="imie" value="Azor" />
+		<property name="dataPrzyjecia" value="null"/>
+			<ref bean="currentDate" />
+		</property>
+		<property name="idSchroniska" value="1" />
+		<property name="nrChipa" value="123" />
+	</bean> 
+
+	<bean id="fastDateFormat" class="org.apache.commons.lang.time.FastDateFormat"
+		factory-method="getInstance">
+		<constructor-arg value="yyyy/MM/dd" />
+	</bean>
+
+	<bean id="currentDate" class="java.util.Date" factory-bean="fastDateFormat"	factory-method="format">
+		<constructor-arg>
+			<bean class="java.util.Date" />
+		</constructor-arg>
+	</bean>
+
+</beans>
