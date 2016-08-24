@@ -48,7 +48,8 @@ public class PiesDAOTest {
 		public void testCreate() throws SQLException{
 		System.out.println("\nTEST METODY CREATE\n");
 		Pies nowyPies = (Pies)context.getBean("piesAzor");
-		piesDAO.create(nowyPies);
+		System.out.println(nowyPies);
+		//piesDAO.create(nowyPies);
 		System.out.println("Zapisano psa:" + nowyPies +"\n");
 	}
 	

@@ -35,7 +35,7 @@ public class Pies {
 	public String getNrChipa() {
 		return nrChipa;
 	}
-	public void setNrChripa(String nrChripa) {
+	public void setNrChipa(String nrChripa) {
 		this.nrChipa = nrChripa;
 	}
 	

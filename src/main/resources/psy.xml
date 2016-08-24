@@ -53,22 +53,8 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
 	<bean id="piesAzor" class="pl.bezdomniaki.Pies">
 		<property name="id" value="123" />
 		<property name="imie" value="Azor" />
-		<property name="dataPrzyjecia" value="null"/>
-			<ref bean="currentDate" />
-		</property>
 		<property name="idSchroniska" value="1" />
 		<property name="nrChipa" value="123" />
 	</bean> 
-
-	<bean id="fastDateFormat" class="org.apache.commons.lang.time.FastDateFormat"
-		factory-method="getInstance">
-		<constructor-arg value="yyyy/MM/dd" />
-	</bean>
-
-	<bean id="currentDate" class="java.util.Date" factory-bean="fastDateFormat"	factory-method="format">
-		<constructor-arg>
-			<bean class="java.util.Date" />
-		</constructor-arg>
-	</bean>
 
 </beans>
