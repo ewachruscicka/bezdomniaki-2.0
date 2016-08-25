@@ -2,6 +2,8 @@ package pl.bezdomniaki;
 
 import java.util.Date;
 
+import org.apache.commons.lang3.time.FastDateFormat;
+
 public class Pies {
 	private int id;
 	private String imie;
@@ -23,8 +25,8 @@ public class Pies {
 	public Date getDataPrzyjecia() {
 		return dataPrzyjecia;
 	}
-	public void setDataPrzyjecia(Date dataPrzyjecia) {
-		this.dataPrzyjecia = dataPrzyjecia;
+	public void setDataPrzyjecia(Date fdf) {
+		this.dataPrzyjecia = fdf;
 	}
 	public int getIdSchroniska() {
 		return idSchroniska;

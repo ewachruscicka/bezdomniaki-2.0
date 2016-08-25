@@ -50,11 +50,16 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
 		</property>
 	</bean>
 
-	<bean id="piesAzor" class="pl.bezdomniaki.Pies">
-		<property name="id" value="123" />
-		<property name="imie" value="Azor" />
+	<bean id="piesTworzony" class="pl.bezdomniaki.Pies">
+		<property name="imie" value="Nowy" />
 		<property name="idSchroniska" value="1" />
-		<property name="nrChipa" value="123" />
+		<property name="nrChipa" value="122" />
+	</bean> 
+	
+		<bean id="piesZmieniony" class="pl.bezdomniaki.Pies">
+		<property name="imie" value="Zmieniony" />
+		<property name="idSchroniska" value="2" />
+		<property name="nrChipa" value="999" />
 	</bean> 
 
 </beans>
