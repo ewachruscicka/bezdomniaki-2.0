@@ -100,4 +100,15 @@ public class PiesDAOTest {
 			System.out.println();
 		}
 	}
+	
+	@Test
+	public void findByCity() throws SQLException{
+		System.out.println("TEST METODY FINDBYCITY\n");
+		List <Pies> listaWybranychPsow = piesDAO.findByCity("a");
+		assertTrue(listaWybranychPsow.size() > 0);
+		for (Pies pies : listaWybranychPsow) {
+			System.out.println(pies);
+			System.out.println();
+		}
+	}
 }
