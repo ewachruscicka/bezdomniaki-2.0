@@ -4,6 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.sql.Connection;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.lang3.time.FastDateFormat;
 import org.junit.BeforeClass;
@@ -54,6 +55,17 @@ public class SchroniskoDAOTest {
 		Schronisko zmienioneSchronisko = (Schronisko)context.getBean("schroniskoZmienione");
 		schroniskoDAO.update(zmienioneSchronisko);
 		System.out.println("Schronisko po edycji: " + zmienioneSchronisko + "\n");
+	}
+	
+	@Test
+	public void testListAll() throws Exception{
+		System.out.println("TEST METODY LISTALL\n");
+		List <Schronisko> listaSchronisk = schroniskoDAO.listAll();
+		assertTrue(listaSchronisk.size() > 0);
+		for (Schronisko schronisko : listaSchronisk) {
+			System.out.println(schronisko);
+			System.out.println();
+		}
 	}
 	
 }

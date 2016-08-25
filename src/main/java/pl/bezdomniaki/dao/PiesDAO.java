@@ -1,8 +1,10 @@
 package pl.bezdomniaki.dao;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 //import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 //import java.sql.Statement;
 import java.util.List;
 
@@ -116,7 +118,20 @@ public class PiesDAO {
 
 
 	public List<Pies> findByCity(String city) throws SQLException {
-		return null;
+		final List<Pies> listaPsow = getJdbcTemplate().query("SELECT p.imie, p.data_przyjecia, p.nr_chipa, p.id, p.id_schroniska, s.nazwa, s.miejscowosc"
+				+ " FROM Pies as p JOIN Schronisko AS s ON s.id = p.id_schroniska"
+				+ " WHERE s.miejscowosc = ?",
+				new RowMapper() {
+				public void mapRow(ResultSet rs, int no) throws SQLException {
+						Pies pies1 = new Pies();
+						pies1.setId(rs.getInt("id"));
+						pies1.setImie(rs.getString("imie"));
+						pies1.setDataPrzyjecia(rs.getDate("data_przyjecia"));
+						pies1.setIdSchroniska(rs.getInt("id_schroniska"));
+						pies1.setNrChipa(rs.getString("nr_chipa"));
+				}
+			});
+			return listaPsow;
 	}
 
 }

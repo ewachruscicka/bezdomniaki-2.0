@@ -9,10 +9,11 @@ import java.sql.ResultSet;*/
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.swing.tree.RowMapper;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowCallbackHandler;
 
-import pl.bezdomniaki.Pies;
 import pl.bezdomniaki.Schronisko;
 
 class SchroniskoDAO {
@@ -60,8 +61,21 @@ class SchroniskoDAO {
 	
 	}
 
-	public List<Schronisko> listAll() throws SQLException {
-		return null;
+	public List<Schronisko> listAll() {
+		final List<Schronisko> listaSchronisk = getJdbcTemplate().query("SELECT * FROM Schronisko", 
+				new RowMapper() {
+				public void mapRow(ResultSet rs, int no) throws SQLException {
+						Schronisko schronisko1 = new Schronisko();
+						schronisko1.setId(rs.getInt("id"));
+						schronisko1.setNazwa(rs.getString("nazwa"));
+						schronisko1.setMiejscowosc(rs.getString("miejscowosc"));
+						schronisko1.setTelefon(rs.getString("telefon"));
+						schronisko1.setEmail(rs.getString("email"));
+						System.out.println("Schronisko przed zmian¹: " + schronisko1);
+				}
+
+			});
+			return listaSchronisk;
 	}
 
 }
