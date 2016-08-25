@@ -119,8 +119,4 @@ public class PiesDAO {
 		return null;
 	}
 
-	public void findFirstRecord() {
-
-	}
-	
 }

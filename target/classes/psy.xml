@@ -51,15 +51,29 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
 	</bean>
 
 	<bean id="piesTworzony" class="pl.bezdomniaki.Pies">
-		<property name="imie" value="Nowy" />
+		<property name="imie" value="Nowy Pies" />
 		<property name="idSchroniska" value="1" />
-		<property name="nrChipa" value="122" />
+		<property name="nrChipa" value="null" />
 	</bean> 
 	
 		<bean id="piesZmieniony" class="pl.bezdomniaki.Pies">
 		<property name="imie" value="Zmieniony" />
 		<property name="idSchroniska" value="2" />
-		<property name="nrChipa" value="999" />
+		<property name="nrChipa" value="null" />
+	</bean> 
+
+	<bean id="schroniskoTworzone" class="pl.bezdomniaki.Schronisko">
+		<property name="nazwa" value="Nowe Schronisko" />
+		<property name="miejscowosc" value="Nowe Miejsce" />
+		<property name="telefon" value="1211111111" />
+		<property name="email" value="tworzone@tworzone.pl" />
+	</bean> 
+	
+		<bean id="schroniskoZmienione" class="pl.bezdomniaki.Schronisko">
+		<property name="nazwa" value="Zmienione Schronisko" />
+		<property name="miejscowosc" value="Zmienione Miejsce" />
+		<property name="telefon" value="122222222" />
+		<property name="email" value="zmienione@zmienione.pl" />
 	</bean> 
 
 </beans>

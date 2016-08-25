@@ -19,7 +19,6 @@ public class PiesDAOTest {
 	//static Connection conn;
 	static PiesDAO piesDAO;
 	static ApplicationContext context;
-	//FastDateFormat fdf;
 	static String currentDate;
 	static Date myDate;
 	static JdbcTemplate jdbcTemplate;
