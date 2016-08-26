@@ -1,17 +1,17 @@
 package pl.bezdomniaki.dao;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 //import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
 //import java.sql.Statement;
 import java.util.List;
 
-import org.springframework.jdbc.core.RowMapper;
-
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowCallbackHandler;
+import org.springframework.jdbc.core.RowMapper;
 
 import pl.bezdomniaki.Pies;
 
@@ -48,22 +48,23 @@ public class PiesDAO {
 
 	public void update(Pies pies) throws SQLException {
 
-		getJdbcTemplate().query("SELECT TOP 1 * FROM Pies", new RowCallbackHandler() {
-			public void processRow(ResultSet rs) throws SQLException {
-				wczytanyPies = new Pies();
-				wczytanyPies.setId(rs.getInt("id"));
-				wczytanyPies.setImie(rs.getString("imie"));
-				wczytanyPies.setDataPrzyjecia(rs.getDate("data_przyjecia"));
-				wczytanyPies.setIdSchroniska(rs.getInt("id_schroniska"));
-				wczytanyPies.setNrChipa(rs.getString("nr_chipa"));
-				System.out.println("Pies przed zmian�: " + wczytanyPies);
+		/*getJdbcTemplate().query("SELECT TOP 1 * FROM Pies", 
+				new RowCallbackHandler() {
+					public void processRow(ResultSet rs) throws SQLException {
+						wczytanyPies = new Pies();
+						wczytanyPies.setId(rs.getInt("id"));
+						wczytanyPies.setImie(rs.getString("imie"));
+						wczytanyPies.setDataPrzyjecia(rs.getDate("data_przyjecia"));
+						wczytanyPies.setIdSchroniska(rs.getInt("id_schroniska"));
+						wczytanyPies.setNrChipa(rs.getString("nr_chipa"));
+						System.out.println("Pies przed zmianą: " + wczytanyPies);
 			}
-		});
+		});*/
 
 		getJdbcTemplate().update(
 				"UPDATE Pies SET imie = ?, data_przyjecia = ?, id_schroniska = ?, nr_chipa = ? WHERE id = ?",
 				new Object[] { pies.getImie(), pies.getDataPrzyjecia(), pies.getIdSchroniska(), pies.getNrChipa(),
-						wczytanyPies.getId() });
+						pies.getId() });
 	}
 	/*
 	 * PreparedStatement stmt = conn.prepareStatement(
@@ -118,10 +119,20 @@ public class PiesDAO {
 		 */
 
 
-	public List<Pies> findByCity(String city) throws SQLException {
-		List<Pies> listaPsow = getJdbcTemplate().query("SELECT p.imie, p.data_przyjecia, p.nr_chipa, p.id, p.id_schroniska, s.nazwa, s.miejscowosc"
-				+ " FROM Pies as p JOIN Schronisko AS s ON s.id = p.id_schroniska"
-				+ " WHERE s.miejscowosc = ?",
+	public List<Pies> findByCity(final String city) throws SQLException {
+		List<Pies> listaPsow = getJdbcTemplate().query(
+
+				 new PreparedStatementCreator() {
+		             public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+		                 PreparedStatement ps = connection.prepareStatement(
+		                		 "SELECT p.imie, p.data_przyjecia, p.nr_chipa, p.id, p.id_schroniska, s.nazwa, s.miejscowosc"
+		                					+ " FROM Pies as p JOIN Schronisko AS s ON s.id = p.id_schroniska"
+		                					+ " WHERE s.miejscowosc = ?");
+		                 ps.setString(1, city);
+		                 return ps;
+		             }
+				 },
+				
 				new RowMapper<Pies>() {
 				public Pies mapRow(ResultSet rs, int no) throws SQLException {
 						Pies pies1 = new Pies();
@@ -133,6 +144,7 @@ public class PiesDAO {
 						return pies1;
 				}
 			});
+			System.out.println("Psy w schornisku w miejscowości: " + city);
 			return listaPsow;
 	}
 

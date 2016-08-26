@@ -44,7 +44,7 @@ public class Pies {
 	@Override
 	public String toString() {
 		return "Pies [id=" + id + ", imie=" + imie + ", dataPrzyjecia=" + dataPrzyjecia + ", idSchroniska="
-				+ idSchroniska + ", nrChripa=" + nrChipa + "]";
+				+ idSchroniska + ", nrChipa=" + nrChipa + "]";
 	}
 	
 	

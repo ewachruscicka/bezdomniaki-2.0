@@ -2,6 +2,7 @@ package pl.bezdomniaki.dao;
 
 import static org.junit.Assert.assertTrue;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
@@ -12,6 +13,8 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowCallbackHandler;
+import org.springframework.jdbc.core.RowMapper;
 
 import pl.bezdomniaki.Pies;
 
@@ -22,6 +25,11 @@ public class PiesDAOTest {
 	static String currentDate;
 	static Date myDate;
 	static JdbcTemplate jdbcTemplate;
+	static Pies wczytanyPies;
+	
+	public JdbcTemplate getJdbcTemplate() {
+		return jdbcTemplate;
+	}
 	
 	@BeforeClass
 	public static void zainicjujTesty() throws Exception {
@@ -65,7 +73,22 @@ public class PiesDAOTest {
 	
 	@Test
 	public void testUpdate() throws Exception{
+		
+		getJdbcTemplate().query("SELECT TOP 1 * FROM Pies", 
+			new RowCallbackHandler() {
+			public void processRow(ResultSet rs) throws SQLException {
+				System.out.println("Pies przed zmian¹: ");
+				wczytanyPies = new Pies();
+				wczytanyPies.setId(rs.getInt("id"));
+				wczytanyPies.setImie(rs.getString("imie"));
+				wczytanyPies.setDataPrzyjecia(rs.getDate("data_przyjecia"));
+				wczytanyPies.setIdSchroniska(rs.getInt("id_schroniska"));
+				wczytanyPies.setNrChipa(rs.getString("nr_chipa"));
+			}
+		});
+		
 		Pies zmienionyPies = (Pies)context.getBean("piesZmieniony");
+		zmienionyPies.setId(wczytanyPies.getId());
 		zmienionyPies.setDataPrzyjecia(myDate);
 		piesDAO.update(zmienionyPies);
 		System.out.println("Pies po edycji: " + zmienionyPies + "\n");
