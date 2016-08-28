@@ -25,7 +25,6 @@ public class PiesDAOTest {
 	static String currentDate;
 	static Date myDate;
 	static JdbcTemplate jdbcTemplate;
-	static Pies wczytanyPies;
 	
 	public JdbcTemplate getJdbcTemplate() {
 		return jdbcTemplate;
@@ -73,20 +72,9 @@ public class PiesDAOTest {
 	
 	@Test
 	public void testUpdate() throws Exception{
-		
-		getJdbcTemplate().query("SELECT TOP 1 * FROM Pies", 
-			new RowCallbackHandler() {
-			public void processRow(ResultSet rs) throws SQLException {
-				System.out.println("Pies przed zmian¹: ");
-				wczytanyPies = new Pies();
-				wczytanyPies.setId(rs.getInt("id"));
-				wczytanyPies.setImie(rs.getString("imie"));
-				wczytanyPies.setDataPrzyjecia(rs.getDate("data_przyjecia"));
-				wczytanyPies.setIdSchroniska(rs.getInt("id_schroniska"));
-				wczytanyPies.setNrChipa(rs.getString("nr_chipa"));
-			}
-		});
-		
+		List <Pies> listaPsow = piesDAO.listAll();
+		Pies wczytanyPies = listaPsow.get(0);
+		System.out.println("Pies wczytany: " + wczytanyPies + "\n");
 		Pies zmienionyPies = (Pies)context.getBean("piesZmieniony");
 		zmienionyPies.setId(wczytanyPies.getId());
 		zmienionyPies.setDataPrzyjecia(myDate);

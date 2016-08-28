@@ -47,20 +47,6 @@ public class PiesDAO {
 	 */
 
 	public void update(Pies pies) throws SQLException {
-
-		/*getJdbcTemplate().query("SELECT TOP 1 * FROM Pies", 
-				new RowCallbackHandler() {
-					public void processRow(ResultSet rs) throws SQLException {
-						wczytanyPies = new Pies();
-						wczytanyPies.setId(rs.getInt("id"));
-						wczytanyPies.setImie(rs.getString("imie"));
-						wczytanyPies.setDataPrzyjecia(rs.getDate("data_przyjecia"));
-						wczytanyPies.setIdSchroniska(rs.getInt("id_schroniska"));
-						wczytanyPies.setNrChipa(rs.getString("nr_chipa"));
-						System.out.println("Pies przed zmianą: " + wczytanyPies);
-			}
-		});*/
-
 		getJdbcTemplate().update(
 				"UPDATE Pies SET imie = ?, data_przyjecia = ?, id_schroniska = ?, nr_chipa = ? WHERE id = ?",
 				new Object[] { pies.getImie(), pies.getDataPrzyjecia(), pies.getIdSchroniska(), pies.getNrChipa(),
@@ -144,7 +130,7 @@ public class PiesDAO {
 						return pies1;
 				}
 			});
-			System.out.println("Psy w schornisku w miejscowości: " + city);
+			System.out.println("Psy w schronisku w miejscowości: " + city);
 			return listaPsow;
 	}
 
