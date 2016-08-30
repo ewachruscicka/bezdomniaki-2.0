@@ -1,5 +1,7 @@
 package pl.bezdomniaki.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 /*import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,8 +14,10 @@ import java.util.List;
 import org.springframework.jdbc.core.RowMapper;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowCallbackHandler;
 
+import pl.bezdomniaki.Pies;
 import pl.bezdomniaki.Schronisko;
 
 class SchroniskoDAO {
@@ -74,9 +78,9 @@ class SchroniskoDAO {
 						System.out.println("Schronisko przed zmian¹: " + schronisko1);
 						return schronisko1;
 				}
-
 			});
 			return listaSchronisk;
 	}
+	
 
 }

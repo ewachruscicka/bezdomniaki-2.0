@@ -67,7 +67,6 @@ public class SchroniskoDAOTest {
 			System.out.println();
 		}
 	}
-	
 }
 
 

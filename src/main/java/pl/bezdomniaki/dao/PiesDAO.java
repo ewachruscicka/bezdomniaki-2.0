@@ -64,7 +64,9 @@ public class PiesDAO {
 	 */
 
 	public void delete(Pies pies) throws SQLException {
-
+		getJdbcTemplate().update(
+				"DELETE FROM Pies WHERE id = ?",
+				 new Object[] {pies.getId()});
 	}
 	/*
 	 * PreparedStatement stmt = conn.prepareStatement(
@@ -73,54 +75,52 @@ public class PiesDAO {
 	 */
 
 	public List<Pies> listAll() {
-		List<Pies> listaPsow = getJdbcTemplate().query("SELECT * FROM Pies", 
-			new RowMapper<Pies>() {
+		List<Pies> listaPsow = getJdbcTemplate().query("SELECT * FROM Pies", new RowMapper<Pies>() {
 			public Pies mapRow(ResultSet rs, int no) throws SQLException {
-					Pies pies1 = new Pies();
-					pies1.setId(rs.getInt("id"));
-					pies1.setImie(rs.getString("imie"));
-					pies1.setDataPrzyjecia(rs.getDate("data_przyjecia"));
-					pies1.setIdSchroniska(rs.getInt("id_schroniska"));
-					pies1.setNrChipa(rs.getString("nr_chipa"));
-					return pies1;
+				Pies pies1 = new Pies();
+				pies1.setId(rs.getInt("id"));
+				pies1.setImie(rs.getString("imie"));
+				pies1.setDataPrzyjecia(rs.getDate("data_przyjecia"));
+				pies1.setIdSchroniska(rs.getInt("id_schroniska"));
+				pies1.setNrChipa(rs.getString("nr_chipa"));
+				return pies1;
 			}
 
 		});
 		return listaPsow;
 	}
 
-		/*
-		 * ArrayList<Pies> listaPsow = new ArrayList<Pies>(); Statement stmt =
-		 * conn.createStatement(); ResultSet rs = stmt.executeQuery(
-		 * "SELECT * FROM Pies"); while (rs.next()) { Pies pies1 = new Pies();
-		 * 
-		 * pies1.setId(rs.getInt("id")); // w getIn mozna nr kolumny albo jej
-		 * "nazwe" pies1.setImie(rs.getString("imie"));
-		 * pies1.setDataPrzyjecia(rs.getDate("data_przyjecia"));
-		 * pies1.setIdSchroniska(rs.getInt("id_schroniska"));
-		 * pies1.setNrChipa(rs.getString("nr_chipa")); listaPsow.add(pies1); }
-		 * rs.close(); stmt.close();
-		 * 
-		 * return listaPsow;
-		 */
-
+	/*
+	 * ArrayList<Pies> listaPsow = new ArrayList<Pies>(); Statement stmt =
+	 * conn.createStatement(); ResultSet rs = stmt.executeQuery(
+	 * "SELECT * FROM Pies"); while (rs.next()) { Pies pies1 = new Pies();
+	 * 
+	 * pies1.setId(rs.getInt("id")); // w getIn mozna nr kolumny albo jej
+	 * "nazwe" pies1.setImie(rs.getString("imie"));
+	 * pies1.setDataPrzyjecia(rs.getDate("data_przyjecia"));
+	 * pies1.setIdSchroniska(rs.getInt("id_schroniska"));
+	 * pies1.setNrChipa(rs.getString("nr_chipa")); listaPsow.add(pies1); }
+	 * rs.close(); stmt.close();
+	 * 
+	 * return listaPsow;
+	 */
 
 	public List<Pies> findByCity(final String city) throws SQLException {
 		List<Pies> listaPsow = getJdbcTemplate().query(
 
-				 new PreparedStatementCreator() {
-		             public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
-		                 PreparedStatement ps = connection.prepareStatement(
-		                		 "SELECT p.imie, p.data_przyjecia, p.nr_chipa, p.id, p.id_schroniska, s.nazwa, s.miejscowosc"
-		                					+ " FROM Pies as p JOIN Schronisko AS s ON s.id = p.id_schroniska"
-		                					+ " WHERE s.miejscowosc = ?");
-		                 ps.setString(1, city);
-		                 return ps;
-		             }
-				 },
-				
+				new PreparedStatementCreator() {
+					public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+						PreparedStatement ps = connection.prepareStatement(
+								"SELECT p.imie, p.data_przyjecia, p.nr_chipa, p.id, p.id_schroniska, s.nazwa, s.miejscowosc"
+										+ " FROM Pies as p JOIN Schronisko AS s ON s.id = p.id_schroniska"
+										+ " WHERE s.miejscowosc = ?");
+						ps.setString(1, city);
+						return ps;
+					}
+				},
+
 				new RowMapper<Pies>() {
-				public Pies mapRow(ResultSet rs, int no) throws SQLException {
+					public Pies mapRow(ResultSet rs, int no) throws SQLException {
 						Pies pies1 = new Pies();
 						pies1.setId(rs.getInt("id"));
 						pies1.setImie(rs.getString("imie"));
@@ -128,10 +128,10 @@ public class PiesDAO {
 						pies1.setIdSchroniska(rs.getInt("id_schroniska"));
 						pies1.setNrChipa(rs.getString("nr_chipa"));
 						return pies1;
-				}
-			});
-			System.out.println("Psy w schronisku w miejscowości: " + city);
-			return listaPsow;
+					}
+				});
+		System.out.println("Psy w schronisku w miejscowości: " + city);
+		return listaPsow;
 	}
 
 }
